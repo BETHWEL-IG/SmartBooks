@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Code2, Heart, ArrowUp, PhoneCall, Mail } from "lucide-react";
+import { Code2, Heart, ArrowUp, PhoneCall, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -108,20 +108,30 @@ export default function Footer() {
             <div className="text-xs font-bold uppercase tracking-wider text-white">
               Get In Touch
             </div>
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2.5 text-xs">
               <a
-                href="https://wa.me/?text=Hello%20SmartBook%20Software"
+                href="https://wa.me/254742795896?text=Hello%20SmartBook%20Software"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300"
+                className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
                 <span>WhatsApp Engineer</span>
               </a>
-              <div className="flex items-center gap-2 text-slate-400">
-                <Mail className="w-3.5 h-3.5 text-sky-400" />
-                <span>projects@smartbook.software</span>
-              </div>
+              <a
+                href="tel:+254742795896"
+                className="flex items-center gap-2 text-slate-300 hover:text-sky-300 transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-sky-400" />
+                <span>+254 742 795 896</span>
+              </a>
+              <a
+                href="mailto:bethwelifedha@gmail.com?subject=SmartBook%20Software%20Inquiry"
+                className="flex items-center gap-2 text-slate-300 hover:text-sky-300 transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5 text-indigo-400" />
+                <span>bethwelifedha@gmail.com</span>
+              </a>
               <div className="text-[11px] text-slate-500 pt-1">
                 24/7 On-Call Support for Live POS Deployments
               </div>

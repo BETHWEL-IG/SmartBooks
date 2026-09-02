@@ -8,7 +8,7 @@ export default function MobileQuickBar() {
     <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-[#090d16]/95 border-t border-sky-500/20 backdrop-blur-xl px-4 py-2.5 shadow-2xl shadow-black">
       <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
         <a
-          href="https://wa.me/?text=Hello%20SmartBook%20Software,%20I'd%20like%20to%20inquire%20about%20a%20custom%20software%20project"
+          href="https://wa.me/254742795896?text=Hello%20SmartBook%20Software,%20I'd%20like%20to%20inquire%20about%20a%20custom%20software%20project"
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 py-2 px-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
@@ -18,7 +18,7 @@ export default function MobileQuickBar() {
         </a>
 
         <a
-          href="tel:+254700000000"
+          href="tel:+254742795896"
           className="py-2 px-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-semibold text-xs flex items-center justify-center gap-1 active:scale-95 transition-transform"
         >
           <PhoneCall className="w-3.5 h-3.5 text-sky-400" />
@@ -36,3 +36,4 @@ export default function MobileQuickBar() {
     </div>
   );
 }
+

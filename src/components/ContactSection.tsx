@@ -111,7 +111,7 @@ export default function ContactSection({
               <div className="space-y-4 pt-2">
                 {/* WhatsApp button */}
                 <a
-                  href={`https://wa.me/?text=${whatsappMessage}`}
+                  href={`https://wa.me/254742795896?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3.5 p-3.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 transition group"
@@ -126,26 +126,38 @@ export default function ContactSection({
                 </a>
 
                 {/* Direct Phone */}
-                <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300">
-                  <div className="p-2 rounded-lg bg-sky-500/10 text-sky-400">
+                <a
+                  href="tel:+254742795896"
+                  className="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-sky-500/40 text-slate-300 transition group"
+                >
+                  <div className="p-2 rounded-lg bg-sky-500/10 text-sky-400 group-hover:bg-sky-500/20 group-hover:text-sky-300 transition-colors">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Direct Phone Call</div>
-                    <div className="text-xs text-sky-400 font-mono">+254 700 000 000 / +254 711 000 000</div>
+                    <div className="text-xs font-bold text-white flex items-center gap-2">
+                      <span>Direct Phone Call</span>
+                      <span className="text-[10px] text-sky-400 font-normal group-hover:underline">Tap to call</span>
+                    </div>
+                    <div className="text-xs text-sky-400 font-mono font-semibold">+254 742 795 896</div>
                   </div>
-                </div>
+                </a>
 
                 {/* Email */}
-                <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300">
-                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+                <a
+                  href="mailto:bethwelifedha@gmail.com?subject=SmartBook%20Software%20Project%20Inquiry"
+                  className="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-indigo-500/40 text-slate-300 transition group"
+                >
+                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 group-hover:text-indigo-300 transition-colors">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Email Address</div>
-                    <div className="text-xs text-indigo-400 font-mono">projects@smartbook.software</div>
+                    <div className="text-xs font-bold text-white flex items-center gap-2">
+                      <span>Email Address</span>
+                      <span className="text-[10px] text-indigo-400 font-normal group-hover:underline">Tap to email</span>
+                    </div>
+                    <div className="text-xs text-indigo-400 font-mono font-semibold">bethwelifedha@gmail.com</div>
                   </div>
-                </div>
+                </a>
 
                 {/* Location */}
                 <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300">
@@ -185,15 +197,22 @@ export default function ContactSection({
                   <p className="text-sm text-slate-300 max-w-md mx-auto">
                     Thank you, <strong className="text-sky-300">{formData.name || "friend"}</strong>. Your project details have been recorded in our system. A senior software engineer from SmartBook will reach out within 1 hour.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
                     <a
-                      href={`https://wa.me/?text=${whatsappMessage}`}
+                      href={`https://wa.me/254742795896?text=${whatsappMessage}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition mr-2"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition"
                     >
                       <PhoneCall className="w-4 h-4" />
                       <span>Chat Immediately on WhatsApp</span>
+                    </a>
+                    <a
+                      href={`mailto:bethwelifedha@gmail.com?subject=${encodeURIComponent("SmartBook Inquiry: " + formData.systemType)}&body=${encodeURIComponent("Name: " + formData.name + "\nPhone: " + formData.phone + "\nBusiness: " + formData.businessName + "\nBudget: " + formData.budgetRange + "\n\nDetails:\n" + formData.message)}`}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 rounded-xl text-xs font-semibold transition"
+                    >
+                      <Mail className="w-4 h-4" />
+                      <span>Email Directly</span>
                     </a>
                     <button
                       onClick={() => {

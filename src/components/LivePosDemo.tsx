@@ -493,7 +493,7 @@ export default function LivePosDemo() {
                 SMARTBOOK POS
               </div>
               <div className="text-[11px] text-slate-600">Bespoke Retail & Hospitality Systems</div>
-              <div className="text-[10px] text-slate-500 mt-1">Tel: +254 700 000 000 | Nairobi, Kenya</div>
+              <div className="text-[10px] text-slate-500 mt-1">Tel: +254 742 795 896 | Nairobi, Kenya</div>
               <div className="mt-2 text-[10px] font-bold bg-emerald-100 text-emerald-800 py-1 px-2 rounded inline-block">
                 ✓ SALE COMPLETED SUCCESSFULLY
               </div>
