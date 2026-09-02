@@ -1,0 +1,29 @@
+mutation SeedDatabase @transaction {
+  user_insertMany(data: [
+    { email: "alice@example.com", role: "admin", displayName: "Alice Admin" },
+    { email: "bob@example.com", role: "instructor", displayName: "Bob Instructor" },
+    { email: "charlie@example.com", role: "student", displayName: "Charlie Student" },
+    { email: "dana@example.com", role: "student", displayName: "Dana Student" }
+  ])
+  course_insertMany(data: [
+    { title: "Intro to GraphQL", instructor: { id: "00000000-0000-0000-0000-000000000001" }, description: "Learn the basics of GraphQL" },
+    { title: "Advanced FDC", instructor: { id: "00000000-0000-0000-0000-000000000002" }, description: "Deep dive into Firebase Data Connect" }
+  ])
+  module_insertMany(data: [
+    { title: "Schema Basics", contentBody: "Defining tables and types", course: { id: "00000000-0000-0000-0000-000000000001" } },
+    { title: "Queries", contentBody: "How to fetch data", course: { id: "00000000-0000-0000-0000-000000000001" } },
+    { title: "Mutations", contentBody: "Writing data safely", course: { id: "00000000-0000-0000-0000-000000000002" } }
+  ])
+  enrollment_insertMany(data: [
+    { user: { id: "00000000-0000-0000-0000-000000000003" }, course: { id: "00000000-0000-0000-0000-000000000001" }, progressPercentage: 50.0 },
+    { user: { id: "00000000-0000-0000-0000-000000000004" }, course: { id: "00000000-0000-0000-0000-000000000001" }, progressPercentage: 25.0 }
+  ])
+  assessment_insertMany(data: [
+    { module: { id: "00000000-0000-0000-0000-000000000001" }, type: "Quiz", maxScore: 100, passingScore: 70 },
+    { module: { id: "00000000-0000-0000-0000-000000000003" }, type: "Exam", maxScore: 200, passingScore: 140 }
+  ])
+  submission_insertMany(data: [
+    { assessment: { id: "00000000-0000-0000-0000-000000000001" }, user: { id: "00000000-0000-0000-0000-000000000003" }, score: 85.0, feedback: "Good work!" },
+    { assessment: { id: "00000000-0000-0000-0000-000000000001" }, user: { id: "00000000-0000-0000-0000-000000000004" }, score: 65.0, feedback: "Need improvement." }
+  ])
+}

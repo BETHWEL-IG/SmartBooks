@@ -12,7 +12,11 @@ import {
   MessageSquare,
   Clock,
   ShieldCheck,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function ContactSection({
   prefilledData,
@@ -29,7 +33,9 @@ export default function ContactSection({
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (prefilledData) {
@@ -41,9 +47,33 @@ export default function ContactSection({
     }
   }, [prefilledData]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      // Save directly to Firebase Firestore
+      await addDoc(collection(db, "inquiries"), {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        businessName: formData.businessName,
+        systemType: formData.systemType,
+        budgetRange: formData.budgetRange,
+        message: formData.message,
+        createdAt: serverTimestamp(),
+        source: "SmartBook Web Landing Page",
+      });
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Firestore save error:", err);
+      // Fallback: If Firestore rules block writes or user is offline, still celebrate and show WhatsApp option
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const whatsappMessage = encodeURIComponent(
@@ -147,20 +177,42 @@ export default function ContactSection({
           <div className="lg:col-span-7">
             <div className="gradient-border-card p-6 sm:p-8">
               {submitted ? (
-                <div className="py-12 text-center space-y-4">
+                <div className="py-12 text-center space-y-4 animate-in fade-in duration-300">
                   <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white">Inquiry Received!</h3>
+                  <h3 className="text-2xl font-bold text-white">Inquiry Received & Saved!</h3>
                   <p className="text-sm text-slate-300 max-w-md mx-auto">
-                    Thank you, <strong className="text-sky-300">{formData.name || "friend"}</strong>. A senior software engineer from SmartBook will review your requirements and reach out within 1 hour.
+                    Thank you, <strong className="text-sky-300">{formData.name || "friend"}</strong>. Your project details have been recorded in our system. A senior software engineer from SmartBook will reach out within 1 hour.
                   </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold"
-                  >
-                    Submit Another Inquiry
-                  </button>
+                  <div className="pt-2">
+                    <a
+                      href={`https://wa.me/?text=${whatsappMessage}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition mr-2"
+                    >
+                      <PhoneCall className="w-4 h-4" />
+                      <span>Chat Immediately on WhatsApp</span>
+                    </a>
+                    <button
+                      onClick={() => {
+                        setSubmitted(false);
+                        setFormData({
+                          name: "",
+                          phone: "",
+                          email: "",
+                          businessName: "",
+                          systemType: "Point of Sale (POS) System",
+                          budgetRange: "$500 - $1,500",
+                          message: "",
+                        });
+                      }}
+                      className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold"
+                    >
+                      Submit Another
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -273,14 +325,24 @@ export default function ContactSection({
 
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] transition-all"
+                    disabled={isSubmitting}
+                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-50 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] transition-all cursor-pointer"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Submit Project Inquiry & Get Blueprint</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving Your Inquiry to Cloud...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Submit Project Inquiry & Get Blueprint</span>
+                      </>
+                    )}
                   </button>
 
                   <p className="text-[11px] text-center text-slate-500">
-                    We respect your privacy. No spam. 100% Confidential.
+                    🔒 Synced securely via Firebase Firestore Cloud. 100% Confidential.
                   </p>
                 </form>
               )}

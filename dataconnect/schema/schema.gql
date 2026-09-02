@@ -1,0 +1,41 @@
+type User @table {
+  email: String!
+  role: String!
+  displayName: String
+  avatarUrl: String
+}
+
+type Course @table {
+  title: String!
+  instructor: User!
+  description: String
+  startDate: Date
+}
+
+type Module @table {
+  title: String!
+  contentBody: String!
+  course: Course!
+}
+
+type Enrollment @table {
+  user: User!
+  course: Course!
+  progressPercentage: Float
+  lastAccessedAt: Timestamp
+}
+
+type Assessment @table {
+  module: Module!
+  type: String!
+  maxScore: Int
+  passingScore: Int
+}
+
+type Submission @table {
+  assessment: Assessment!
+  user: User!
+  score: Float!
+  feedback: String
+  submittedAt: Timestamp
+}

@@ -1,0 +1,184 @@
+mutation CreateUser @auth(level: USER) {
+  user_insert(data: {
+    id_expr: "auth.uid",
+    email: "user@example.com",
+    role: "student"
+  })
+}
+
+mutation UpdateUser @auth(level: USER) {
+  user_update(key: {id_expr: "auth.uid"}, data: {
+    displayName: "New Name"
+  })
+}
+
+mutation DeleteUser @auth(level: USER) {
+  user_delete(key: {id_expr: "auth.uid"})
+}
+
+query GetUser @auth(level: USER) {
+  user(key: {id_expr: "auth.uid"}) {
+    email
+    displayName
+  }
+}
+
+query ListUsers @auth(level: USER) {
+  users {
+    email
+    displayName
+  }
+}
+
+mutation CreateCourse @auth(level: USER) {
+  course_insert(data: {
+    title: "Intro to GraphQL",
+    instructor: {id_expr: "auth.uid"},
+    description: "Learn FDC"
+  })
+}
+
+mutation UpdateCourse @auth(level: USER) {
+  course_update(id: "00000000-0000-0000-0000-000000000000", data: {
+    description: "Updated description"
+  })
+}
+
+mutation DeleteCourse @auth(level: USER) {
+  course_delete(id: "00000000-0000-0000-0000-000000000000")
+}
+
+query GetCourse @auth(level: PUBLIC, insecureReason: "Course catalog is public.") {
+  course(id: "00000000-0000-0000-0000-000000000000") {
+    title
+    instructor { displayName }
+  }
+}
+
+query ListCourses @auth(level: PUBLIC, insecureReason: "Course catalog is public.") {
+  courses {
+    title
+  }
+}
+
+mutation CreateModule @auth(level: USER) {
+  module_insert(data: {
+    title: "Lesson 1",
+    contentBody: "Content",
+    course: {id: "00000000-0000-0000-0000-000000000000"}
+  })
+}
+
+mutation UpdateModule @auth(level: USER) {
+  module_update(id: "00000000-0000-0000-0000-000000000000", data: {
+    contentBody: "Updated Content"
+  })
+}
+
+mutation DeleteModule @auth(level: USER) {
+  module_delete(id: "00000000-0000-0000-0000-000000000000")
+}
+
+query GetModule @auth(level: PUBLIC, insecureReason: "Modules are public components of courses.") {
+  module(id: "00000000-0000-0000-0000-000000000000") {
+    title
+    contentBody
+  }
+}
+
+query ListModules @auth(level: PUBLIC, insecureReason: "Modules are public components of courses.") {
+  modules {
+    title
+  }
+}
+
+mutation CreateEnrollment @auth(level: USER) {
+  enrollment_insert(data: {
+    user: {id_expr: "auth.uid"},
+    course: {id: "00000000-0000-0000-0000-000000000000"}
+  })
+}
+
+mutation UpdateEnrollment @auth(level: USER) {
+  enrollment_update(id: "00000000-0000-0000-0000-000000000000", data: {
+    progressPercentage: 50.0
+  })
+}
+
+mutation DeleteEnrollment @auth(level: USER) {
+  enrollment_delete(id: "00000000-0000-0000-0000-000000000000")
+}
+
+query GetEnrollment @auth(level: USER) {
+  enrollment(id: "00000000-0000-0000-0000-000000000000") {
+    progressPercentage
+  }
+}
+
+query ListEnrollments @auth(level: USER) {
+  enrollments(where: {user: {id: {eq_expr: "auth.uid"}}}) {
+    course { title }
+  }
+}
+
+mutation CreateAssessment @auth(level: USER) {
+  assessment_insert(data: {
+    module: {id: "00000000-0000-0000-0000-000000000000"},
+    type: "Quiz",
+    maxScore: 100
+  })
+}
+
+mutation UpdateAssessment @auth(level: USER) {
+  assessment_update(id: "00000000-0000-0000-0000-000000000000", data: {
+    maxScore: 110
+  })
+}
+
+mutation DeleteAssessment @auth(level: USER) {
+  assessment_delete(id: "00000000-0000-0000-0000-000000000000")
+}
+
+query GetAssessment @auth(level: PUBLIC, insecureReason: "Assessments are public.") {
+  assessment(id: "00000000-0000-0000-0000-000000000000") {
+    type
+    maxScore
+  }
+}
+
+query ListAssessments @auth(level: PUBLIC, insecureReason: "Assessments are public.") {
+  assessments {
+    type
+  }
+}
+
+mutation CreateSubmission @auth(level: USER) {
+  submission_insert(data: {
+    assessment: {id: "00000000-0000-0000-0000-000000000000"},
+    user: {id_expr: "auth.uid"},
+    score: 95.0
+  })
+}
+
+mutation UpdateSubmission @auth(level: USER) {
+  submission_update(id: "00000000-0000-0000-0000-000000000000", data: {
+    score: 98.0
+  })
+}
+
+mutation DeleteSubmission @auth(level: USER) {
+  submission_delete(id: "00000000-0000-0000-0000-000000000000")
+}
+
+query GetSubmission @auth(level: USER) {
+  submission(id: "00000000-0000-0000-0000-000000000000") {
+    score
+    feedback
+  }
+}
+
+query ListSubmissions @auth(level: USER) {
+  submissions(where: {user: {id: {eq_expr: "auth.uid"}}}) {
+    score
+  }
+}

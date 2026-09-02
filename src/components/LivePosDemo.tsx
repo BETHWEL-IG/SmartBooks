@@ -21,6 +21,8 @@ import {
   X,
   Tag,
 } from "lucide-react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 interface Product {
   id: string;
@@ -132,6 +134,17 @@ export default function LivePosDemo() {
     };
     setLastOrderDetails(orderData);
     setShowReceiptModal(true);
+
+    if (!isOffline) {
+      try {
+        addDoc(collection(db, "demo_pos_sales"), {
+          ...orderData,
+          serverCreated: serverTimestamp(),
+        }).catch(() => {});
+      } catch (e) {
+        // graceful ignore for playground demo
+      }
+    }
   };
 
   return (
